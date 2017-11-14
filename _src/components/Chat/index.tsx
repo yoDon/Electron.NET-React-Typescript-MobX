@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react'
-import ChatStore from './stores/Chat'
+import ChatStore from '../../stores/Chat'
 
 @inject('appState')
 @observer
