@@ -2,9 +2,9 @@
 import * as ReactDOM from "react-dom";
 import { HashRouter, Route } from "react-router-dom";
 import { Provider } from "mobx-react";
-import Home from "./Home";
-import Chat from "./Chat";
-import ChatStore from "./stores/Chat";
+import Home from "../components/Home";
+import Chat from "../components/Chat";
+import ChatStore from "../stores/Chat";
 
 require('./index.html');
 
