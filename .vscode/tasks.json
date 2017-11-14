@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/SampleApp.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "webpack dev",
+            "command": "${workspaceRoot}/node_modules/.bin/webpack -d --display-modules --progress --stdin",
+            "windows": {
+                "command": "${workspaceRoot}\\node_modules\\.bin\\webpack -d --display-modules --progress --stdin"
+            },
+            "type": "shell",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "webpack dist",
+            "command": "${workspaceRoot}/node_modules/.bin/webpack -p --display-modules --progress --stdin",
+            "windows": {
+                "command": "${workspaceRoot}\\node_modules\\.bin\\webpack -p --display-modules --progress --stdin"
+            },
+            "type": "shell",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
