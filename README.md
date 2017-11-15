@@ -17,7 +17,7 @@ $ dotnet restore
 $ npm install
 ```
 
-Then use ```npm start``` to build the React/Typescript "client-side" code from _src into wwwroot,  build the C# code into an Electron app, and start the neccessary development servers to run the app, or use one of the more specific commands to perform just a part of the process.
+Then use ```npm start``` to build the React/Typescript "client-side" code from _src into wwwroot,  build the C# code into an Electron app, and start the neccessary development servers to run the app, or use one of the more specific commands listed below to perform just a part of the process.
 
 | Command | Effect |
 | ------- | ------ |
@@ -35,7 +35,7 @@ To debug the C# in Visual Studio, attach to your running application instance by
 
 ## NOTES
 
-This sample is modeled on a static React frontend approach, connecting the frontend HTML to the backend server via Electron's built-in interprocess communication (ipc) calls. That said, the server-side dotnet code actually runs a full ASPNET MVC server, so if you prefer you can easily modify it to use ASPNET views to generate the HTML. In support of this, I left the Home View and Controller in place, and currently just have the Home View redirect the renderer from / to /index.html (which can be found in wwwroot after running ```npm run build``` and which contains the generated React code).
+This sample is modeled on a static React frontend approach, connecting the frontend HTML to the backend server via Electron's built-in interprocess communication (ipc) calls. That said, the server-side dotnet code actually runs a full ASPNET MVC server, so if you prefer you can easily modify it to use ASPNET views to generate the HTML. In support of this, I left the Home View and Controller in place, and currently just have the Home View redirect the renderer from / to /index.html (which can be found in wwwroot after running ```npm start``` or ```npm run js``` and which contains the generated React code).
 
 I've tried to keep this sample simple so there isn't a lot of extra stuff not everyone needs, but I did include a React WebView wrapper component because it's so common to want to use WebViews in Electron and they're tricky in React and trickier still when using React with Typescript.
 
