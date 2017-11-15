@@ -21,7 +21,7 @@ Then use ```npm start``` to build the React/Typescript "client-side" code from _
 
 | Command | Effect |
 | ------- | ------ |
-| ```npm build```  | build the javascript, then the C#, then launch the app |
+| ```npm start```  | build the javascript, then the C#, then launch the app |
 | ```npm run js``` | build the javascript |
 | ```npm run cs``` | build the C#, then launch the app |
 | ```npm run cs-build``` | build the C# without launching the app |
