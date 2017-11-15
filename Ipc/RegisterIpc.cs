@@ -17,6 +17,13 @@ namespace SampleApp
         }
         public void Register()
         {
+            //
+            // NOTE: I use a dictionary to make sure the ipc route names are unique
+            //       (it's too easy to copy-and-paste some code, forget to update the route name,
+            //       and end up with two competing functions mapped to the same string). This also
+            //       allows for a client-side list-ipc function to confirm in the renderer that
+            //       you're only sending allowed ipc calls.
+            //
             mRegister.Add("list-ipc",         (key,args) => { ListIpc(key);         });
             mRegister.Add("counter-delta",    (key,args) => { CounterDelta(key,args);});
             mRegister.Add("counter-delta-string",    (key,args) => { CounterDeltaString(key,args);});

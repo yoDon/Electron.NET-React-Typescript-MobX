@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "name": "ElectronNET-React-Typescript-MobX",
+  "name": "electron.net-react-typescript-mobx",
   "author": "Don Alvarez <don@acceleratedpictures.com>",
-  "description": "Boilerplate for electron.net + react + typescript + mobx apps, which of course also means iy has C# and aspnet support built in as well",
+  "description": "Boilerplate for electron.net + react + typescript + mobx apps, which of course means it also has C# and aspnet support built in",
   "keywords": [
     "electron",
     "electron.net",
