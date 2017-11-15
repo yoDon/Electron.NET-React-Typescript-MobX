@@ -6,7 +6,7 @@ When I read about [Electron.NET](https://github.com/ElectronNET/Electron.NET) (a
   
 ## Using
   
-You'll need [Node.js (v.8.x)](https://nodejs.org) and [.NET Core SDK](https://www.microsoft.com/net/download/core) installed on your computer in order to start or build this app.
+You'll need [Node.js (v.8.x)](https://nodejs.org) and [.NET Core SDK](https://www.microsoft.com/net/download/core) installed on your computer in order to start or build this app. I personally like to use VS Code when working on the HTML/JS bits and Visual Studio when working on the C# code (they play nice together), but that's just a personal preference.
 
 First download and install:
 
