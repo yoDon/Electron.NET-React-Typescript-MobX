@@ -2,20 +2,24 @@
 import * as ReactDOM from "react-dom";
 import { HashRouter, Route } from "react-router-dom";
 import { Provider } from "mobx-react";
-import Home from "../components/Home";
-import Chat from "../components/Chat";
-import ChatStore from "../stores/Chat";
+import HomePage from "../components/HomePage";
+import WebViewPage from "../components/WebViewPage";
+import CounterPage from "../components/CounterPage";
+import CounterStore from "../stores/Counter";
+
+import "./app.global.scss";
 
 require('./index.html');
 
-const stores = new ChatStore();
+const stores = new CounterStore();
 
 ReactDOM.render(
     <Provider appState={stores}>
         <HashRouter>
             <div>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/chat" component={Chat}/>
+                <Route exact path="/counter" component={CounterPage} />
+                <Route exact path="/webview" component={WebViewPage} />
+                <Route exact path="/" component={HomePage} />
             </div>
         </HashRouter>
     </Provider>,

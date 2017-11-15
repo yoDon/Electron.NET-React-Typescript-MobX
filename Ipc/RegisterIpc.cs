@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace SampleApp
 {
@@ -10,12 +11,15 @@ namespace SampleApp
     {
         public static RegisterIpc Impl = new RegisterIpc();
         private Dictionary<string,Action<string,Object>> mRegister = new Dictionary<string,Action<string,Object>>();
+        private int counter = 0;
         private RegisterIpc()
         {
         }
         public void Register()
         {
             mRegister.Add("list-ipc",         (key,args) => { ListIpc(key);         });
+            mRegister.Add("counter-delta",    (key,args) => { CounterDelta(key,args);});
+            mRegister.Add("counter-delta-string",    (key,args) => { CounterDeltaString(key,args);});
             mRegister.Add("say-hello",        (key,args) => { SayHello(key,args);   });
             mRegister.Add("select-directory", (key,args) => { SelectDirectory(key); });
             mRegister.Add("save-dialog",      (key,args) => { SaveDialog(key);      });
@@ -39,6 +43,20 @@ namespace SampleApp
                 keys.Add(item.Key);
             }
             Reply(ipc, keys);
+        }
+        private void CounterDelta(string ipc, dynamic args)
+        {
+			// Note args comes in as a Newtonsoft.Json.Linq.JObject;
+            int delta = args.delta;
+            this.counter += delta;
+            Reply(ipc, counter);
+        }
+        private void CounterDeltaString(string ipc, Object args)
+        {
+            string value = args as string;
+            int delta = int.Parse(value);
+            this.counter += delta;
+            Reply(ipc, counter);
         }
         private void SayHello(string ipc, Object args)
         {
