@@ -2,7 +2,7 @@
 var path = require('path');
 
 module.exports = {
-    entry: "./_src/app.tsx",
+    entry: "./_src/app/app.tsx",
     output: {
         filename: "bundle.js",
         path: path.join(__dirname, "wwwroot"),
