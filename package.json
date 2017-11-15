@@ -25,9 +25,12 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "webpack -d --display-modules --progress",
-    "watch": "webpack -d --display-modules --progress --stdin",
-    "buildP": "webpack -p --display-modules --progress --stdin"
+    "start": "run-s js cs",
+    "js": "webpack -d --display-modules --progress",
+    "js-p": "webpack -p --display-modules --progress",
+    "js-watch": "webpack -d --display-modules --progress --stdin",
+    "cs": "dotnet electronize start",
+    "cs-build": "dotnet electronize build"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
