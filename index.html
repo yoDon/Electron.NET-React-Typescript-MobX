@@ -13,7 +13,10 @@
     //
     // Check if we're running in Electron and if so do a bit of cleanup
     //
-    if (typeof(require) !== "undefined") {
+    if (typeof(require) === "undefined") {
+      window.isElectron = false;
+    } else {
+      window.isElectron = true;
       // see https://electron.atom.io/docs/faq/ 
       // we are using this to avoid issues described in https://stackoverflow.com/a/38556376
       window.nodeRequire = require;
