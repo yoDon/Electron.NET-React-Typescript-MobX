@@ -10,15 +10,17 @@
 <body>
   <div id="Content"></div>
   <script>
-    if (require) {
+    //
+    // Check if we're running in Electron and if so do a bit of cleanup
+    //
+    if (typeof(require) !== "undefined") {
       // see https://electron.atom.io/docs/faq/ 
       // we are using this to avoid issues described in https://stackoverflow.com/a/38556376
       window.nodeRequire = require;
       delete window.require;
       delete window.exports;
       delete window.module;
-    }
-  </script>
+    }  </script>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="bundle.js"></script>
