@@ -15,6 +15,9 @@
     <DotNetCliToolReference Include="ElectronNET.CLI" Version="*" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Assets\preload.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\electron.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

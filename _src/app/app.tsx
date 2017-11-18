@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import { HashRouter, Route } from "react-router-dom";
 import { Provider } from "mobx-react";
 import HomePage from "../components/HomePage";
+import HybridAppPage from "../components/HybridAppPage";
 import WebViewPage from "../components/WebViewPage";
 import CounterPage from "../components/CounterPage";
 import CounterStore from "../stores/Counter";
@@ -19,6 +20,7 @@ ReactDOM.render(
             <div>
                 <Route exact path="/counter" component={CounterPage} />
                 <Route exact path="/webview" component={WebViewPage} />
+                <Route exact path="/hybrid" component={HybridAppPage} />
                 <Route exact path="/" component={HomePage} />
             </div>
         </HashRouter>

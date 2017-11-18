@@ -24,9 +24,19 @@ namespace SampleApp
             //       allows for a client-side list-ipc function to confirm in the renderer that
             //       you're only sending allowed ipc calls.
             //
+            // NOTE: By convention, this app uses a convention where WebViews (aka Hybrid Apps)
+            //       are only allowed to register routes starting with "webview-" as a way of
+            //       making sure that the electron renderer is explicitly whitelisting any
+            //       messages that it exchanges with the WebView before relaying information
+            //       to this backend process and block the page running inside the WebView
+            //       from sending messages directly to this backend process without their being 
+            //       reviewed and approved for relay by the electron render. In support of this 
+            //       convention, this backend should never register any routes starting with 
+            //       "webview-".
+            //
             mRegister.Add("list-ipc",         (key,args) => { ListIpc(key);         });
             mRegister.Add("counter-delta",    (key,args) => { CounterDelta(key,args);});
-            mRegister.Add("counter-delta-string",    (key,args) => { CounterDeltaString(key,args);});
+            mRegister.Add("counter-delta-string",  (key,args) => { CounterDeltaString(key,args);});
             mRegister.Add("say-hello",        (key,args) => { SayHello(key,args);   });
             mRegister.Add("select-directory", (key,args) => { SelectDirectory(key); });
             mRegister.Add("save-dialog",      (key,args) => { SaveDialog(key);      });
@@ -34,7 +44,10 @@ namespace SampleApp
             mRegister.Add("async-msg",        (key,args) => { AsyncMsg(key);        });
             foreach (var item in mRegister)
             {
-                Electron.IpcMain.On(item.Key,(args)=>{ item.Value(item.Key,args); });
+                if (item.Key.StartsWith("webview-") == false) 
+                {
+                    Electron.IpcMain.On(item.Key,(args)=>{ item.Value(item.Key,args); });
+                }
             }
         }
         private void Reply(string ipc, params Object[] data)

@@ -25,6 +25,7 @@
   },
   "license": "MIT",
   "scripts": {
+    "foo": "asar list ./obj/Host/node_modules/electron/dist/resources/default_app.asar",
     "start": "run-s js cs",
     "js": "webpack -d --display-modules --progress",
     "js-p": "webpack -p --display-modules --progress",
@@ -53,6 +54,7 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
+    "asar": "^0.14.0",
     "classnames": "^2.2.5",
     "jquery": "^3.2.1",
     "mobx": "^3.1.5",

@@ -10,8 +10,9 @@ class HomePage extends React.Component {
                 <h2>Home</h2>
                 <ol>
                     <li><Link to="/counter">Counter</Link></li>
-                    <li><Link to="/webview">WebView</Link></li>
-                </ol>
+                    <li><Link to="/webview">WebView (conventional web page in WebView)</Link></li>
+                    <li><Link to="/hybrid">Hybrid App (electron-enabled page in WebView)</Link></li>
+                    </ol>
             </div>
         );
     }

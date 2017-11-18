@@ -26,12 +26,15 @@ class CounterPage extends React.Component<{appState: CounterStore}, {}> {
                     </Link>
                 </div>
                 <div className={`counter ${styles.counter}`}>
-                    {this.props.appState.counter}
+                    { this.props.appState.counter }
+                    <br/>
+                    { this.props.appState.hasElectronAccess ? "C# Value" : "JS Value" }
                 </div>
                 <div className={styles.btnGroup}>
                     <button className={styles.btn} onClick={this.increment.bind(this)}>
                         <i className="fa fa-plus" />
                     </button>
+                    <br/>
                     <button className={styles.btn} onClick={this.decrement.bind(this)}>
                         <i className="fa fa-minus" />
                     </button>

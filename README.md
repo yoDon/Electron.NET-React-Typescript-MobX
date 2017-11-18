@@ -17,7 +17,31 @@ $ dotnet restore
 $ npm install
 ```
 
-Then use ```npm start``` to build the React/Typescript "client-side" code from _src into wwwroot,  build the C# code into an Electron app, and start the neccessary development servers to run the app, or use one of the more specific commands listed below to perform just a part of the process.
+### Hack Hack Hack (begin)
+
+In a moment you're going to build the app. First I need to describe a 
+manual hack you'll need to do after building for the first time. The
+WebView component uses a file called preload.js to control what Electron
+functionality is exposed to external web pages loaded in the WebView.
+The WebView component only loads the preload.js script from a file, and
+there currently isn't a good way that I've found for getting that file
+where it needs to be without manually putting it there (controlling what
+extra files get packaged up with the Electron.NET app looks to be a
+TODO item). For now, what I've been doing is after building the app for
+the first time I manuall copy the ```./Assets folder``` into ```bin/desktop/*/resources/app/node_modules/Assets```
+and ```obj/{desktop,Host}/node_modules/Assets```. The folder and its
+contents don't get blown away by rebuilds, so you only have to repeat the
+process if you change the contents of one of the files under ```./Assets```.
+
+Yup, that's not ideal, but Electron.NET is pretty new and I'm hopeful 
+someone will figure out a better way to handle packaging of files
+either internal to Electron.NET or external to it fairly soon.
+
+### Hack Hack Hack (end)
+
+Then use ```npm start``` to build the React/Typescript "client-side" code from _src into wwwroot, build the C# code into an Electron app, and start the neccessary development servers to run the app, or use one of the more specific commands listed below to perform just a part of the process.
+
+AND REMEMBER, don't forget to manually copy the ```./Assets``` folder as described in the previous section and then re-run ```npm start``` to run the complete build of the app
 
 | Command | Effect |
 | ------- | ------ |
@@ -29,19 +53,19 @@ Then use ```npm start``` to build the React/Typescript "client-side" code from _
 
 ## DEBUGGING
 
-When the app is running in development mode, you can use the View menu to open the Chrome developer tools and inspect the renderer contents as you would with a normal webpage.
+When the app is running in development mode, you can use the View menu to open the Chrome developer tools and inspect the renderer contents as you would with a normal webpage. If you're on a page with an embedded WebView component, you can use the "Open Inner Dev Tools" button to open a separate copy of Chrome developer tools for the embedded page.
 
-To debug the C# in Visual Studio, attach to your running application instance by opening the Debug Menu and clicking on "Attach to Process...". Select "SampleApp.exe" from the list to attach to. I currently get a ton of intellisense errors in Visual Studio when trying to connect to the app but debugging does actually seem to work fine even with all the red in the window (hopefully if others see similiar intellisense errors someone will figure out what's up and send a PR for either the code or this readme to fix it).
+To debug the C# in Visual Studio, just attach to your running application instance by opening the Debug Menu, clicking on "Attach to Process...", and selecting "SampleApp.exe" from the list of processes.
 
 ## NOTES
 
 This sample is modeled on a static React frontend approach, connecting the frontend HTML to the backend server via Electron's built-in interprocess communication (ipc) calls. That said, the server-side dotnet code actually runs a full ASPNET MVC server, so if you prefer you can easily modify it to use ASPNET views to generate the HTML. In support of this, I left the Home View and Controller in place, and currently just have the Home View redirect the renderer from / to /index.html (which can be found in wwwroot after running ```npm start``` or ```npm run js``` and which contains the generated React code).
 
-I've tried to keep this sample simple so there isn't a lot of extra stuff not everyone needs, but I did include a React WebView wrapper component because it's so common to want to use WebViews in Electron and they're tricky in React and trickier still when using React with Typescript.
+I've tried to keep this sample simple so there isn't a lot of extra stuff not everyone needs, but I did include a React WebView wrapper component because it's so common to want to use WebViews in Electron and they're tricky in React and trickier still when using React with Typescript, and I included an example of 
+how a WebView can be used to make a Hybrid Web App that loads an existing web page and grants it native
+client functionality when the web page is running inside the electron app.
 
 ## TODO
-
-[ ] Use objects instead of strings for ipc message passing
 
 [ ] Enable hot reload of the C# server code
 
