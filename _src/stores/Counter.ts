@@ -14,6 +14,12 @@ import { observable, action, autorun } from 'mobx';
 // or content loaded by the contained webpage not be granted arbitrary access to
 // the user's PC by way of exposed Electron functionality.
 //
+//
+// In addition to talking to the electron backend or the electron
+// renderer, when this class is hosted in an electron app it is also
+// responsible for managing the relay of messages to and from any
+// counter WebViews that the app is hosting.
+//
 const ipcRenderer = ((window as any).isElectron) ? (window as any).nodeRequire('electron').ipcRenderer : (window as any).ipcRendererStub;
 
 class CounterStore {
@@ -23,6 +29,10 @@ class CounterStore {
     public hasElectronAccess = (ipcRenderer !== undefined && ipcRenderer !== null);
 
     constructor() {
+        //
+        // As needed register handlers for messages from either
+        // the electron backend or the elecron host app
+        //
         if (this.isElectron) {
             ipcRenderer.on("counter-delta-reply",(event:any, arg:number) => {
                 this.setReply(arg);
@@ -36,7 +46,7 @@ class CounterStore {
         }
     }
 
-    @observable counter = 0;
+    @observable value = 0;
 
     public addWebViewListeners(element:any) {
         //
@@ -54,17 +64,17 @@ class CounterStore {
         //
         const disposers = [] as (()=>void)[];
         disposers.push(autorun(()=>{
-            element.send("webview-counter-delta-reply",this.counter);
+            element.send("webview-counter-delta-reply",this.value);
         }));
         return disposers;
     }
 
     public initializeWebViewState(element:any) {
-        element.send("webview-counter-delta-reply",this.counter);
+        element.send("webview-counter-delta-reply",this.value);
     }
 
     @action setReply(arg:number) {
-        this.counter = arg;
+        this.value = arg;
     }
 
     @action handleWebViewMessage(event:any) {
@@ -80,37 +90,31 @@ class CounterStore {
     }
 
     @action change(value:number) {
-        //
-        // wrap the integer in an object to send it to the backend, because I was 
-        // having problems passing ints directly (my guess is it's because ints 
-        // are value types but that's just a guess - strings can be passed directly 
-        // without needing to wrap them like this)
-        //
         if (this.isElectron) {
+            //
+            // wrap the integer in an object to send it to the backend, because I was 
+            // having problems passing ints directly (my guess is it's because ints 
+            // are value types but that's just a guess - strings can be passed directly 
+            // without needing to wrap them like this)
+            //
             ipcRenderer.send("counter-delta", {delta:value});
         } else if (this.isInWebView) {
             ipcRenderer.sendToHost("webview-counter-delta", {delta:value});
-        }
-    }
-
-    @action increment() {
-        if (this.hasElectronAccess) {
-            this.change(1)
         } else {
             //
             // manage the state locally without talking to the Electron backend,
             // because there is no backend to talk to
             //
-            this.counter++;
+            this.value++;
         }
     }
 
+    @action increment() {
+        this.change(1)
+    }
+
     @action decrement() {
-        if (this.hasElectronAccess) {
-            this.change(-1);
-        } else {
-            this.counter--;
-        }
+        this.change(-1);
     }
   
 }

@@ -1,20 +1,20 @@
 import * as React from "react";
 import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import CounterStore from '../../stores/Counter';
+import StoreRoot from '../../stores/StoreRoot';
 
 import * as styles from "./styles.scss";
 
 @inject('appState')
 @observer
-class CounterPage extends React.Component<{appState: CounterStore}, {}> {
+class CounterPage extends React.Component<{appState: StoreRoot}, {}> {
 
     private increment() {
-        this.props.appState.increment();
+        this.props.appState.counter.increment();
     }
 
     private decrement() {
-        this.props.appState.decrement();
+        this.props.appState.counter.decrement();
     }
 
     render() {
@@ -26,9 +26,9 @@ class CounterPage extends React.Component<{appState: CounterStore}, {}> {
                     </Link>
                 </div>
                 <div className={`counter ${styles.counter}`}>
-                    { this.props.appState.counter }
+                    { this.props.appState.counter.value }
                     <br/>
-                    { this.props.appState.hasElectronAccess ? "C# Value" : "JS Value" }
+                    { this.props.appState.counter.hasElectronAccess ? "C# Value" : "JS Value" }
                 </div>
                 <div className={styles.btnGroup}>
                     <button className={styles.btn} onClick={this.increment.bind(this)}>

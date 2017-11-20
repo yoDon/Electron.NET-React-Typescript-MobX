@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import * as ElectronWebView from 'react-electron-web-view/lib/ElectronWebView';
 import { inject, observer } from 'mobx-react';
-import CounterStore from '../../stores/Counter';
+import StoreRoot from '../../stores/StoreRoot';
 
 import * as styles from "./styles.scss";
 const remote = ((window as any).isElectron) ? (window as any).nodeRequire('electron').remote : null;
@@ -27,7 +27,7 @@ const preloadScript = (remote === null ) ? "" : `file://${remote.app.getAppPath(
 
 @inject('appState')
 @observer
-class HybridAppPage extends React.Component<{appState: CounterStore}, {}> {
+class HybridAppPage extends React.Component<{appState: StoreRoot}, {}> {
 
     private mDisposers = [] as (()=>void)[];
     private mElement:any;
@@ -39,7 +39,7 @@ class HybridAppPage extends React.Component<{appState: CounterStore}, {}> {
         if ((window as any).isElectron) {
             this.mElement = this.getWebView();
             this.mElement.addEventListener("dom-ready", () => {
-                this.props.appState.initializeWebViewState(this.mElement);
+                this.props.appState.counter.initializeWebViewState(this.mElement);
                 // Uncomment next line to automatically open the devTools window after the content loads
                 // element.openDevTools();
             });
@@ -52,7 +52,7 @@ class HybridAppPage extends React.Component<{appState: CounterStore}, {}> {
             //       not be granted full access to the electron API in order to 
             //       protect the user's PC from potentially malicious web content.
             //
-            this.mDisposers = this.props.appState.addWebViewListeners(this.mElement);
+            this.mDisposers = this.props.appState.counter.addWebViewListeners(this.mElement);
         }
     }
 
@@ -73,11 +73,11 @@ class HybridAppPage extends React.Component<{appState: CounterStore}, {}> {
     }
 
     plus() {
-        this.props.appState.increment();
+        this.props.appState.counter.increment();
     }
 
     minus() {
-        this.props.appState.decrement();
+        this.props.appState.counter.decrement();
     }
 
     render() {
@@ -102,7 +102,7 @@ class HybridAppPage extends React.Component<{appState: CounterStore}, {}> {
                     className={styles.webView}
                 />
                 <div style={{margin:"15px"}}>
-                    Counter: <b>{this.props.appState.counter}</b>
+                    Counter: <b>{this.props.appState.counter.value}</b>
                 </div>
                 <div style={{margin:"15px"}}>
                     VERY IMPORTANT for now you need to manually copy the ./Assets folder into

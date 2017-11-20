@@ -7,13 +7,14 @@ import HomePage from "../components/HomePage";
 import HybridAppPage from "../components/HybridAppPage";
 import WebViewPage from "../components/WebViewPage";
 import CounterPage from "../components/CounterPage";
-import CounterStore from "../stores/Counter";
+import StoreRoot from "../stores/StoreRoot";
 
 import "./app.global.scss";
 
+useStrict(true);
 require('./index.html');
 
-const stores = new CounterStore();
+const stores = new StoreRoot();
 
 ReactDOM.render(
     <Provider appState={stores}>
