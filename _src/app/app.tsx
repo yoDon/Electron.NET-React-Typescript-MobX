@@ -2,6 +2,7 @@
 import * as ReactDOM from "react-dom";
 import { HashRouter, Route } from "react-router-dom";
 import { Provider } from "mobx-react";
+import { useStrict } from 'mobx'
 import HomePage from "../components/HomePage";
 import HybridAppPage from "../components/HybridAppPage";
 import WebViewPage from "../components/WebViewPage";
