@@ -28,7 +28,7 @@ there currently isn't a good way that I've found for getting that file
 where it needs to be without manually putting it there (controlling what
 extra files get packaged up with the Electron.NET app looks to be a
 TODO item). For now, what I've been doing is after building the app for
-the first time I manuall copy the ```./Assets folder``` into ```bin/desktop/*/resources/app/node_modules/Assets```
+the first time I manually copy the ```./Assets folder``` into ```bin/desktop/*/resources/app/node_modules/Assets```
 and ```obj/{desktop,Host}/node_modules/Assets```. The folder and its
 contents don't get blown away by rebuilds, so you only have to repeat the
 process if you change the contents of one of the files under ```./Assets```.
