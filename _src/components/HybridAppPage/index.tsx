@@ -39,20 +39,11 @@ class HybridAppPage extends React.Component<{appState: StoreRoot}, {}> {
         if ((window as any).isElectron) {
             this.mElement = this.getWebView();
             this.mElement.addEventListener("dom-ready", () => {
+                this.mDisposers = this.props.appState.counter.addWebViewListeners(this.mElement);
                 this.props.appState.counter.initializeWebViewState(this.mElement);
                 // Uncomment next line to automatically open the devTools window after the content loads
                 // element.openDevTools();
             });
-            //
-            // NOTE: By convention this app only allows loaded pages to register
-            //       and call routes starting with "webview-", so that all messages
-            //       from the webview can be inspected and approved by this electron
-            //       renderer process before passing them on to the electron backend
-            //       process. It's important that untrusted websites and web content
-            //       not be granted full access to the electron API in order to 
-            //       protect the user's PC from potentially malicious web content.
-            //
-            this.mDisposers = this.props.appState.counter.addWebViewListeners(this.mElement);
         }
     }
 
