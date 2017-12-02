@@ -8,7 +8,7 @@
         "jsx": "react",
         "allowJs": false,
         "alwaysStrict": true,
-        "strictNullChecks": true,
+        "strictNullChecks": false,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,

@@ -37,6 +37,13 @@ class CounterStore {
             ipcRenderer.on("counter-delta-reply",(event:any, arg:number) => {
                 this.setReply(arg);
             });
+            ipcRenderer.on("open-dev-tools-webview-reply",(event:any, arg:string) => {
+                this.openDevToolsWebView();
+            });
+            ipcRenderer.on("browser-back-webview-reply",(event:any, arg:string) => {
+                this.browserBackWebView();
+            });
+            ipcRenderer.send("menu-for-webview");
         } else if (this.isInWebView) {
             ipcRenderer.on("webview-counter-delta-reply",(event:any, arg:number) => {
                 this.setReply(arg);
@@ -49,26 +56,31 @@ class CounterStore {
     @observable value = 0;
 
     public addWebViewListeners(element:any) {
-        //
-        // NOTE: By convention this app only allows loaded pages to register
-        //       and call routes starting with "webview-", so that all messages
-        //       from the webview can be inspected and approved by this electron
-        //       renderer process before passing them on to the electron backend
-        //       process. It's important that untrusted websites and web content
-        //       not be granted full access to the electron API in order to 
-        //       protect the user's PC from potentially malicious web content.
-        //
-        element.addEventListener("ipc-message",this.handleWebViewMessage.bind(this));
-        //
-        // Relay state updates to the webview
-        //
         const disposers = [] as (()=>void)[];
-        disposers.push(autorun(()=>{
-            element.send("webview-counter-delta-reply",this.value);
-        }));
+        if (element.getAttribute('webviewlistener') !== 'true') {
+            element.setAttribute('webviewlistener', 'true');
+            //
+            // NOTE: By convention this app only allows loaded pages to register
+            //       and call routes starting with "webview-", so that all messages
+            //       from the webview can be inspected and approved by this electron
+            //       renderer process before passing them on to the electron backend
+            //       process. It's important that untrusted websites and web content
+            //       not be granted full access to the electron API in order to 
+            //       protect the user's PC from potentially malicious web content.
+            //
+            element.addEventListener("ipc-message",this.handleWebViewMessage.bind(this));
+            //
+            // Relay state updates to the webview
+            //
+            disposers.push(autorun(()=>{
+                element.send("webview-counter-delta-reply",this.value);
+            }));
+        }
         return disposers;
     }
 
+    public hybridAppPage:any;
+    
     public initializeWebViewState(element:any) {
         element.send("webview-counter-delta-reply",this.value);
     }
@@ -116,7 +128,19 @@ class CounterStore {
     @action decrement() {
         this.change(-1);
     }
-  
+
+    public openDevToolsWebView() {
+        if (this.hybridAppPage) {
+            this.hybridAppPage.openDevTools();
+        }
+    }
+
+    public browserBackWebView() {
+        if (this.hybridAppPage) {
+            this.hybridAppPage.innerBack();
+        }
+    }
+
 }
 
 export default CounterStore;

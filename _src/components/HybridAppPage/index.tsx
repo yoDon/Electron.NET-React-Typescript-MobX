@@ -5,18 +5,26 @@ import { inject, observer } from 'mobx-react';
 import StoreRoot from '../../stores/StoreRoot';
 
 import * as styles from "./styles.scss";
+
 const remote = ((window as any).isElectron) ? (window as any).nodeRequire('electron').remote : null;
 
 //
 // NOTE: the WebView tag only accepts the file: protocol for the preload script
-// HACK: for reasons that I don't understand the following path gets
-//       mangled somewhere seemingly beyond my control into ...../node_modules/Assets/preload.js
-//       so you need to make sure the preload.js ends up there. At present I'm
-//       manually copying the Assets folder into the various destition folders
-//          obj/{desktop,host}/node_modules/Assets
-//          bin/desktop/*/resources/app/node_modules/Assets
+//       so the preload.js file must be included in the app as a resource
 //
-const preloadScript = (remote === null ) ? "" : `file://${remote.app.getAppPath()+'/../../../../../../../Assets/preload.js'}`;
+// NOTE: As of Nov 2017, when building a dev version on a PC the preloadScript
+//       must be manually copied into the obj\Host folders as follows:
+//
+//     PC:  obj\Host\node_modules\electron\dist\resources\ <- this much exists after npm run cs
+//                  app\bin\Assets\preload.js <---------- create these folders and copy in preload.js
+//
+//  or OSX: obj/Host/node_modules/electron/dist/Electron.app/Contents/Resources/ <- this much exists after npm run cs
+//                  app/bin/Asssets/preload.js <------------------------------- create these folders and copy in preload.js
+//
+//       (Fortunately after the first time this normally only needs to be repeated
+//        if you need to change preload.js, which should be a fairly rare occurance)
+//
+const preloadScript = (remote === null ) ? "" : `file://${remote.app.getAppPath()+'/../app/bin/Assets/preload.js'}`;
 
 //
 // Note: you can change the WebView src attribute to 
@@ -39,10 +47,14 @@ class HybridAppPage extends React.Component<{appState: StoreRoot}, {}> {
         if ((window as any).isElectron) {
             this.mElement = this.getWebView();
             this.mElement.addEventListener("dom-ready", () => {
-                this.mDisposers = this.props.appState.counter.addWebViewListeners(this.mElement);
-                this.props.appState.counter.initializeWebViewState(this.mElement);
-                // Uncomment next line to automatically open the devTools window after the content loads
-                // element.openDevTools();
+                const disposers = this.props.appState.counter.addWebViewListeners(this.mElement);
+                if (disposers.length > 0) {
+                    this.mDisposers = disposers;
+                    this.props.appState.counter.initializeWebViewState(this.mElement);
+                    // Uncomment next line to automatically open the devTools window after the content loads
+                    // element.openDevTools();
+                }
+                this.props.appState.counter.hybridAppPage = this;
             });
         }
     }

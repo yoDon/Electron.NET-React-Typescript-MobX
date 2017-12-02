@@ -35,6 +35,7 @@ namespace SampleApp
             //       "webview-".
             //
             mRegister.Add("list-ipc",         (key,args) => { ListIpc(key);         });
+            mRegister.Add("menu-for-webview", (Key,args) => { MenuCreator.CreateMenus(true); });
             mRegister.Add("counter-delta",    (key,args) => { CounterDelta(key,args);});
             mRegister.Add("counter-delta-string",  (key,args) => { CounterDeltaString(key,args);});
             mRegister.Add("say-hello",        (key,args) => { SayHello(key,args);   });
@@ -49,6 +50,7 @@ namespace SampleApp
                     Electron.IpcMain.On(item.Key,(args)=>{ item.Value(item.Key,args); });
                 }
             }
+            MenuCreator.CreateMenus(false);
         }
         private void Reply(string ipc, params Object[] data)
         {
@@ -132,6 +134,14 @@ namespace SampleApp
         private void AsyncMsg(string ipc)
         {
             Reply(ipc, "pong");
+        }
+        public void OpenDevToolsWebView() 
+        {
+            Reply("open-dev-tools-webview");
+        }
+        public void BrowserBackWebView()
+        {
+            Reply("browser-back-webview");
         }
     }
 }

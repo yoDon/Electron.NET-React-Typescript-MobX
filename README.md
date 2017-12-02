@@ -27,11 +27,12 @@ The WebView component only loads the preload.js script from a file, and
 there currently isn't a good way that I've found for getting that file
 where it needs to be without manually putting it there (controlling what
 extra files get packaged up with the Electron.NET app looks to be a
-TODO item). For now, what I've been doing is after building the app for
-the first time I manually copy the ```./Assets folder``` into ```bin/desktop/*/resources/app/node_modules/Assets```
-and ```obj/{desktop,Host}/node_modules/Assets```. The folder and its
-contents don't get blown away by rebuilds, so you only have to repeat the
-process if you change the contents of one of the files under ```./Assets```.
+TODO item). For now, what I've been doing is doing a dev build of the app for
+the first time I manually copy the ```./Assets folder``` into ```obj\Host\node_modules\electron\dist\resources\app\bin\``` on a PC or 
+and ```obj/Host/node_modules/electron/dist/Electron.app/Contents/Resources/app/bin/```. 
+The folder and its contents don't get blown away by rebuilds, so you only have 
+to repeat the process if you change the contents of one of the files under 
+```./Assets```. For production builds there are similar paths under ```bin/desktop```.
 
 Yup, that's not ideal, but Electron.NET is pretty new and I'm hopeful 
 someone will figure out a better way to handle packaging of files
@@ -64,6 +65,14 @@ This sample is modeled on a static React frontend approach, connecting the front
 I've tried to keep this sample simple so there isn't a lot of extra stuff not everyone needs, but I did include a React WebView wrapper component because it's so common to want to use WebViews in Electron and they're tricky in React and trickier still when using React with Typescript, and I included an example of 
 how a WebView can be used to make a Hybrid Web App that loads an existing web page and grants it native
 client functionality when the web page is running inside the electron app.
+
+### Bug Bug Bug (begin)
+
+At the time of this writing there's an [Electron.NET issue](https://github.com/ElectronNET/Electron.NET/issues/71) with OSX and Linux production 
+builds only able to run once. Hopefully by the time you're reading this that issue
+has been fixed.
+
+### Bug Bug Bug (end)
 
 ## TODO
 
