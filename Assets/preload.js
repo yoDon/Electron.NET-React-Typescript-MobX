@@ -18,9 +18,11 @@ const { ipcRenderer } = require('electron');
     // routes to be registered or called that are paths starting with "webview-",
     // so the app can easily tell whether the messages it receives came from 
     // the webview or from the backend. The electron backend should similarly never
-    // expose any routes starting with "webview-". It's important to avoid 
-    // exposing core Electron (even IPC) or node.js modules to the loaded web page 
-    // to prevent malicious pages or web content from taking control of the user's PC. 
+    // expose any routes starting with "webview-" (all "webview-" routes should
+    // be handled and potentially relayed to the server by the renderer hosting
+    // the hybrid web app page). It's important to avoid exposing core Electron
+    // capabilities to the loaded web page to prevent malicious pages or web content
+    // from taking control of the user's PC. 
     //
     window.ipcRendererStub = {
         on: (path, handler) => {

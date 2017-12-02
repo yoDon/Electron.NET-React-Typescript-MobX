@@ -6,8 +6,6 @@ import StoreRoot from '../../stores/StoreRoot';
 
 import * as styles from "./styles.scss";
 
-const remote = ((window as any).isElectron) ? (window as any).nodeRequire('electron').remote : null;
-
 //
 // NOTE: the WebView tag only accepts the file: protocol for the preload script
 //       so the preload.js file must be included in the app as a resource
@@ -24,7 +22,7 @@ const remote = ((window as any).isElectron) ? (window as any).nodeRequire('elect
 //       (Fortunately after the first time this normally only needs to be repeated
 //        if you need to change preload.js, which should be a fairly rare occurance)
 //
-const preloadScript = (remote === null ) ? "" : `file://${remote.app.getAppPath()+'/../app/bin/Assets/preload.js'}`;
+const preloadScript = ((window as any).isElectron === false) ? "" : `file://${(window as any).nodeRequire('electron').remote.app.getAppPath()+'/../app/bin/Assets/preload.js'}`;
 
 //
 // Note: you can change the WebView src attribute to 
@@ -32,37 +30,24 @@ const preloadScript = (remote === null ) ? "" : `file://${remote.app.getAppPath(
 //       to show you can pull the code from the web (but that page might 
 //       not be entirely up to date with the main repo)
 //
+const electronWebViewSrc = "./index.html" ;
 
 @inject('appState')
 @observer
 class HybridAppPage extends React.Component<{appState: StoreRoot}, {}> {
 
-    private mDisposers = [] as (()=>void)[];
     private mElement:any;
 
     getWebView() {
         return (document.getElementsByClassName(styles.webView) as any)[0];
     }
     componentDidMount() {
-        if ((window as any).isElectron) {
-            this.mElement = this.getWebView();
-            this.mElement.addEventListener("dom-ready", () => {
-                const disposers = this.props.appState.counter.addWebViewListeners(this.mElement);
-                if (disposers.length > 0) {
-                    this.mDisposers = disposers;
-                    this.props.appState.counter.initializeWebViewState(this.mElement);
-                    // Uncomment next line to automatically open the devTools window after the content loads
-                    // element.openDevTools();
-                }
-                this.props.appState.counter.hybridAppPage = this;
-            });
-        }
+        this.mElement = this.getWebView();
+        this.props.appState.counter.registerWebView(this.mElement);
     }
 
     componentWillUnmount() {
-        this.mDisposers.forEach((disposer) => {
-            disposer();
-        })
+        this.props.appState.counter.unregisterWebView(this.mElement);
     }
 
     openDevTools() {
@@ -100,7 +85,7 @@ class HybridAppPage extends React.Component<{appState: StoreRoot}, {}> {
         return (
             <div>
                 <ElectronWebView 
-                    src="./index.html" 
+                    src={electronWebViewSrc}
                     preload={preloadScript}
                     className={styles.webView}
                 />
@@ -109,7 +94,7 @@ class HybridAppPage extends React.Component<{appState: StoreRoot}, {}> {
                 </div>
                 <div style={{margin:"15px"}}>
                     VERY IMPORTANT for now you need to manually copy the ./Assets folder into
-                    a couple of nested node_modules locations after build for the first time,
+                    a couple of nested node_modules locations after building for the first time,
                     as described in the repo readme. If you forgot to do that, you'll either 
                     see white above where the WebView should be or when you click on "Counter"
                     you'll see the WebView telling you it's using JS rather than C# to track
