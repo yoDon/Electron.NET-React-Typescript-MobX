@@ -28,11 +28,11 @@ there currently isn't a good way that I've found for getting that file
 where it needs to be without manually putting it there (controlling what
 extra files get packaged up with the Electron.NET app looks to be a
 TODO item). For now, what I've been doing is doing a dev build of the app for
-the first time I manually copy the ```./Assets folder``` into ```obj\Host\node_modules\electron\dist\resources\app\bin\``` on a PC or 
-and ```obj/Host/node_modules/electron/dist/Electron.app/Contents/Resources/app/bin/```. 
+the first time I manually copy the ```./Assets folder``` to ```obj\Host\node_modules\electron\dist\resources\app\bin\Assets``` on a PC or 
+to ```obj/Host/node_modules/electron/dist/Electron.app/Contents/Resources/app/bin/Assets``` on a Mac (I haven't confirmed for Linux but I'm guessing it matches the PC path).
 The folder and its contents don't get blown away by rebuilds, so you only have 
 to repeat the process if you change the contents of one of the files under 
-```./Assets```. For production builds there are similar paths under ```bin/desktop```.
+```./Assets```. For production builds the files should currently get automatically copied into similar paths under ```bin/desktop``` but this isn't happening for dev builds.
 
 Yup, that's not ideal, but Electron.NET is pretty new and I'm hopeful 
 someone will figure out a better way to handle packaging of files
