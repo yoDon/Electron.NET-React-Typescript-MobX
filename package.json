@@ -31,7 +31,8 @@
     "js-p": "webpack -p --display-modules --progress",
     "js-watch": "webpack -d --display-modules --progress --stdin",
     "cs": "dotnet electronize start",
-    "cs-build": "dotnet electronize build"
+    "cs-build": "dotnet electronize build",
+    "site": "webpack-dev-server --progress --colors"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
@@ -47,12 +48,16 @@
     "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.6.1",
     "npm-run-all": "^4.1.2",
+    "react-hot-loader": "^3.1.3",
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.19.0",
     "typescript": "^2.6.1",
     "typings-for-css-modules-loader": "^1.7.0",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "webpack-dev-middleware": "^1.12.2",
+    "webpack-dev-server": "^2.9.5",
+    "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
     "asar": "^0.14.0",

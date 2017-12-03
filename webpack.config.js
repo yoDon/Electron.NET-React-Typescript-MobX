@@ -12,6 +12,10 @@ module.exports = {
         filename: "[name].js",
         path: __dirname
     },
+    devServer: {
+        contentBase: path.join(__dirname, "wwwsite"),
+        open: true,
+    },
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'wwwroot/index.html',

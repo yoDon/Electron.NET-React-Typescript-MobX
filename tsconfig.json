@@ -16,6 +16,10 @@
         "experimentalDecorators": true
     },
     "include": [
+        "_shared/**/*.ts",
+        "_shared/**/*.tsx",
+        "_site/**/*.ts",
+        "_site/**/*.tsx",
         "_src/**/*.ts",
         "_src/**/*.tsx",
         "node_modules/@types/**/*.d.ts"
