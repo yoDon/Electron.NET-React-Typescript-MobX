@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import * as ElectronWebView from 'react-electron-web-view/lib/ElectronWebView';
 import { inject, observer } from 'mobx-react';
-import StoreRoot from '../../stores/StoreRoot';
+import StoreRoot from '../../../_shared/stores/StoreRoot';
 
 import * as styles from "./styles.scss";
 
@@ -25,12 +25,16 @@ import * as styles from "./styles.scss";
 const preloadScript = ((window as any).isElectron === false) ? "" : `file://${(window as any).nodeRequire('electron').remote.app.getAppPath()+'/../app/bin/Assets/preload.js'}`;
 
 //
-// Note: you can change the WebView src attribute to 
+// Note: you can set the WebView src attribute to ./index.html to just load this
+//       app into itself as a WebView (handy for testing if stuff works) or to
 //       "https://yodon.github.io/Electron.NET-React-Typescript-MobX/sample" 
-//       to show you can pull the code from the web (but that page might 
-//       not be entirely up to date with the main repo)
+//       to pull in a built version of the sample _site in this example code 
+//       (but that page might not be entirely up to date with the main repo
+//       since we don't currently have any automated build hooks to make sure
+//       they are in sync)
 //
-const electronWebViewSrc = "./index.html" ;
+const electronWebViewSrc = "./index.html";
+//const electronWebViewSrc = "https://yodon.github.io/Electron.NET-React-Typescript-MobX/sample
 
 @inject('appState')
 @observer
@@ -41,6 +45,7 @@ class HybridAppPage extends React.Component<{appState: StoreRoot}, {}> {
     getWebView() {
         return (document.getElementsByClassName(styles.webView) as any)[0];
     }
+
     componentDidMount() {
         this.mElement = this.getWebView();
         this.props.appState.counter.registerWebView(this.mElement);

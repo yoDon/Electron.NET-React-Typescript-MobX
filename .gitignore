@@ -261,3 +261,5 @@ __pycache__/
 *.pyc
 wwwroot/index.html
 wwwroot/bundle.js
+wwwsite/bundle.js
+wwwsite/index.html

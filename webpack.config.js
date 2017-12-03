@@ -1,13 +1,30 @@
 ﻿"use strict";
 var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: "./_src/app/app.tsx",
-    output: {
-        filename: "bundle.js",
-        path: path.join(__dirname, "wwwroot"),
-        publicPath: "/"
+    entry: {
+        "wwwroot/bundle": "./_src/app/app.tsx",
+        "wwwsite/bundle": "./_site/app/app.tsx",
     },
+    output: {
+        filename: "[name].js",
+        path: __dirname
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+          filename: 'wwwroot/index.html',
+          template: '_src/app/index.html',
+          chunks: ['wwwroot/bundle'],
+          inject: false
+        }),
+        new HtmlWebpackPlugin({
+          filename: 'wwwsite/index.html',
+          template: '_site/app/index.html',
+          chunks: ['wwwsite/bundle'],
+          inject: false
+        })
+    ],
     devtool: "source-map",
     resolve: {
         extensions: [ 
@@ -15,7 +32,6 @@ module.exports = {
             '.jpg',
             '.gif',
             '.svg',
-            '.html', 
             '.css',
             '.scss',
             '.tsx', 
@@ -69,14 +85,6 @@ module.exports = {
                         }
                     }
                 ]
-            },
-            {
-                test: /\.(html)$/,
-                exclude: /node_modules/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]'
-                }  
             },
             {
                 test: /\.(png|jpg|gif|svg)(\?\S*)?$/,
