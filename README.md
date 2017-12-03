@@ -52,13 +52,23 @@ AND REMEMBER, don't forget to manually copy the ```./Assets``` folder as describ
 | ```npm run cs-build``` | build the C# without launching the app |
 | ```npm run js-watch``` | build the javascript and then watch the filesystem for changes |
 
-## DEBUGGING
+## Debugging
 
 When the app is running in development mode, you can use the View menu to open the Chrome developer tools and inspect the renderer contents as you would with a normal webpage. If you're on a page with an embedded WebView component, you can use the "Open Inner Dev Tools" button to open a separate copy of Chrome developer tools for the embedded page.
 
 To debug the C# in Visual Studio, just attach to your running application instance by opening the Debug Menu, clicking on "Attach to Process...", and selecting "SampleApp.exe" from the list of processes.
 
-## NOTES
+## Organization
+
+The ```_shared``` folder contains Typescript files shared between ```_site``` and ```_src```.
+
+The ```_site``` folder contains the Typescript source of an optional external website to be loaded into the Electron app as a Hybrid Web App.
+
+The ```_src``` folder contains the Typescript source of the Electron app's render content.
+
+```npm run js``` builds ```_site``` into wwwsite and ```_src``` into wwwroot.
+
+## Notes
 
 This sample is modeled on a static React frontend approach, connecting the frontend HTML to the backend server via Electron's built-in interprocess communication (ipc) calls. That said, the server-side dotnet code actually runs a full ASPNET MVC server, so if you prefer you can easily modify it to use ASPNET views to generate the HTML. In support of this, I left the Home View and Controller in place, and currently just have the Home View redirect the renderer from / to /index.html (which can be found in wwwroot after running ```npm start``` or ```npm run js``` and which contains the generated React code).
 
