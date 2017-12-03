@@ -5,7 +5,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
         "wwwroot/bundle": "./_src/app/app.tsx",
-        "wwwsite/bundle": "./_site/app/app.tsx",
+        "wwwroot/site": "./_site/app/app.tsx",
+        "wwwsite/site": "./_site/app/app.tsx",
     },
     output: {
         filename: "[name].js",
@@ -13,15 +14,21 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-          filename: 'wwwroot/index.html',
-          template: '_src/app/index.html',
-          chunks: ['wwwroot/bundle'],
-          inject: false
-        }),
-        new HtmlWebpackPlugin({
+            filename: 'wwwroot/index.html',
+            template: '_src/app/index.html',
+            chunks: ['wwwroot/bundle'],
+            inject: false
+          }),
+          new HtmlWebpackPlugin({
+            filename: 'wwwroot/site.html',
+            template: '_site/app/index.html',
+            chunks: ['wwwroot/site'],
+            inject: false
+          }),
+            new HtmlWebpackPlugin({
           filename: 'wwwsite/index.html',
           template: '_site/app/index.html',
-          chunks: ['wwwsite/bundle'],
+          chunks: ['wwwsite/site'],
           inject: false
         })
     ],

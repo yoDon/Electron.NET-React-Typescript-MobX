@@ -33,7 +33,7 @@ const preloadScript = ((window as any).isElectron === false) ? "" : `file://${(w
 //       since we don't currently have any automated build hooks to make sure
 //       they are in sync)
 //
-const electronWebViewSrc = "./index.html";
+const electronWebViewSrc = "./site.html";
 //const electronWebViewSrc = "https://yodon.github.io/Electron.NET-React-Typescript-MobX/sample
 
 @inject('appState')

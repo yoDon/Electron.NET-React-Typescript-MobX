@@ -84,7 +84,7 @@ has been fixed.
 
 ### Bug Bug Bug (end)
 
-## TODO
+## Todo
 
 [ ] Enable hot reload of the C# server code
 
