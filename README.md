@@ -1,3 +1,5 @@
+NOTE: This repop is no longer actively maintained. When combining C# with Electron, I'm currently https://github.com/yoDon/electron-react-typescript-dotnet which is both much simpler and a much smaller delta off of stock Electron and stock create-react-app packages.
+
 # <img src="https://cloud.githubusercontent.com/assets/378023/15172388/b2b81950-1790-11e6-9a7c-ccc39912bb3a.png" width="60px" align="center" alt="ElectronNET-React-Typescript-MobX"> ElectronNET-React-Typescript-MobX  
   
 When I read about [Electron.NET](https://github.com/ElectronNET/Electron.NET) (a variant of Electron with C# and dotnet core for the "server" process), I was hooked but wanted a React and Typescript front-end sample. That quest led to creating this repo which works on Windows, macOS and Linux operating systems.
